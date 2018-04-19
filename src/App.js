@@ -67,23 +67,28 @@ class App extends Component {
 function Cascade(props) {
   console.log('props: ', props);
   const cards = props.cards.map((card, i) => {
-    const cardStyle = {
-      top: i * 50
-    };
-    const redCard = card.suit == 'hearts' || card.suit == 'diamonds';
-    return <div style={cardStyle} className={"card " + (redCard ? 'red-card' : '')} >
-        <div className="topLeft">
-          <p>{card.name}</p>
-          <p>{suits[card.suit].symbol}</p>
-        </div>
-        <div className="botRight">
-          <p>{suits[card.suit].symbol}</p>
-          <p>{card.name}</p>
-        </div>
-      </div>
+    return <Card card={card} pos={i}  />
   });
   console.log('cards: ', cards);
   return <div className="cascade">{cards}</div>;
 }
+
+function Card(props) {
+  const card = props.card;
+  const cardStyle = {
+    top: props.pos * 50
+  };
+  const redCard = card.suit == 'hearts' || card.suit == 'diamonds';
+  return <div style={cardStyle} className={"card " + (redCard ? 'red-card' : '')} >
+    <div className="topLeft">
+    <p>{card.name}</p>
+    <p>{suits[card.suit].symbol}</p>
+    </div>
+    <div className="botRight">
+    <p>{suits[card.suit].symbol}</p>
+    <p>{card.name}</p>
+    </div>
+    </div>
+};
 
 export default App;
