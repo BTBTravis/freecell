@@ -46,7 +46,21 @@ let _shuffle = (a) => {
 export default class CardAPI {
   constructor() {
     this.count = 4;
-    this.freeCells = [[],[],[],[]];
+    this.freeCells = [
+      {
+        card: false
+      },
+      {
+        card: false
+      },
+
+      {
+        card: false
+      },
+      {
+        card: false
+      },
+    ];
     this.scoreCells = [
       {
         name: 'hearts',
@@ -105,8 +119,27 @@ export default class CardAPI {
       return carry;
     }, {});
   }
-  add() {
-    this.count++;
+
+  addToFreeCell(i, card) {
+    console.log('i: ', i);
+    console.log('card: ', card);
+    //if(this.freeCells[i].card) this.freeCells[i].card = false;
+
+    if(this.freeCells[i].card) return; // check if free sell is occupied
+    // check if card is last of a cascade
+    let lastCards = [].concat.apply([],
+      this.cascades.map(cas => {
+        return cas.length > 0 ? cas[cas.length - 1] : [];
+    }));
+    console.log('lastCards: ', lastCards);
+    if(! lastCards.includes(card)) return;
+    // move card
+    this.cascades = this.cascades.map(ces => {
+      let index = ces.indexOf(card);
+      if(index != -1) ces.splice(index, 1);
+      return ces;
+    });
+    this.freeCells[i].card = card;
   }
 
 

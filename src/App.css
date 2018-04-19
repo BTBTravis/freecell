@@ -50,15 +50,16 @@ html, body, #root {
 
 .cell {
   margin: .5em;
-  padding: .5em;
   border: 2px solid #00000029;
   border-radius: 15px;
-  height: 125px;
-  width: 80px;
+  height: 150px;
+  width: 100px;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  user-select: none;
+  box-sizing: border-box;
 }
 
 .cell .bgtxt {
@@ -70,16 +71,17 @@ html, body, #root {
   font-size: 2.5em;
 }
 .card {
-  margin: .5em;
+  /*margin: .5em;*/
   padding: .5em;
   border: 2px solid black;
   border-radius: 15px;
-  height: 125px;
-  width: 80px;
+  height: 150px;
+  width: 100px;
   display: grid;
   grid-template-columns: auto 1fr auto;
   grid-template-rows: auto 1fr auto;
   background-color: white;
+  box-sizing: border-box;
 }
 .card p {
   margin: 0;
@@ -98,9 +100,10 @@ html, body, #root {
 }
 .cascade {
   position: relative;
-  width: 80px;
+  width: 100px;
   margin: .5em;
   padding: .5em;
+  box-sizing: border-box;
 }
 .main-field .card {
   position: absolute;
