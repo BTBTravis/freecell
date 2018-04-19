@@ -3,6 +3,7 @@
 The project was created as part of a Technical Challenge from [NGX Interactive](http://ngxinteractive.com/)
 
 ### Goal: Create and implementation of classic Windows solitaire card game FreeCell 
+
 **Progress**
 - [X] 4 “free cell” positions at top.
 - [X] 4 “foundation” position to move cards to complete the game
@@ -21,3 +22,15 @@ The project was created as part of a Technical Challenge from [NGX Interactive](
 - [X] It must include some kind of JSON I/O. Show us how you would use JSON for external data.
   + FreeCell class includes a stateToJson method, state is console logged on scoring a card
 - [X] All the source code and assets must be uploaded to public GitHub/Bitbucket account
+
+**Tech highlights**
++ js object destructuring
++ business logic separate from the view
++ held off bringing in state management library
+
+**Imporvments**
++ unit tests for FreeCell.js
++ good opportunity for generative testing *Ex. try moving every card to every possible location*
++ adding [prop-types](https://www.npmjs.com/package/prop-types) would improve stability
++ add [react dnd](https://github.com/react-dnd/react-dnd) for dragging interaction
+
