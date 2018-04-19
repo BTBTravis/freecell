@@ -120,6 +120,80 @@ export default class CardAPI {
     }, {});
   }
 
+  /*
+   * add a card from a current cascade or freecell to a different cascade if rules allow
+   * @pram {int} id of cascade being added to
+   * @pram {Card} card to add to cascade
+   */
+  addToCascade(i, card) {
+    let cesId = this.cardToCascade(card);
+    console.log('cesId: ', cesId);
+    let part;
+    if(cesId !== false){ // check this cascade
+      let index = this.cascades[cesId].indexOf(card);
+      part = this.cascades[cesId].slice(index);
+      console.log('part: ', part);
+      let checkCard = (ecard, ces) => {
+        let index = ces.indexOf(ecard);
+        if(index < 0) return false; // if the card is not in the ces its not eligible
+        if(index == ces.length - 1) return true; // if the card is last in the ces it is eligible
+        let nextCard = ces[index + 1];
+        if((nextCard.suit == 'hearts' || nextCard.suit == 'diamonds') && (ecard.suit == 'hearts' || ecard.suit == 'diamonds')) return false;
+        if((nextCard.suit == 'clubs' || nextCard.suit == 'spades') && (ecard.suit == 'clubs' || ecard.suit == 'spades')) return false;
+        if(nextCard.name != ecard.name - 1) return false;
+        return true;
+      };
+
+      let eligible = part.reduce((bool, partCard) => {
+        if(bool) return checkCard(partCard, this.cascades[cesId]);
+        else return bool;
+      }, true);
+      console.log('eligible: ', eligible);
+      if(!eligible) return;
+
+    } else { // check freecell
+      // TODO: Chcek freecell for card
+      let freeCellCards = this.freeCells.reduce((arr, cell) => {
+        arr.push(cell.card);
+        return arr;
+      }, []);
+      if(!freeCellCards.includes(card)) return;
+    }
+
+    let lastCard = this.cascades[i][this.cascades[i].length - 1];
+    // knock out same color
+    if((lastCard.suit == 'hearts' || lastCard.suit == 'diamonds') && (card.suit == 'hearts' || card.suit == 'diamonds')) return;
+    if((lastCard.suit == 'clubs' || lastCard.suit == 'spades') && (card.suit == 'clubs' || card.suit == 'spades')) return;
+    // knock out wrong number
+    if(card.name != lastCard.name - 1) return;
+
+    // move card
+    let add = card;
+    this.freeCells = this.freeCells.map(cell => { // remove card from free cell
+      if(cell.card == card) cell.card = false;
+      return cell;
+    });
+    this.cascades = this.cascades.map(ces => { // remove card from cascades
+      let index = ces.indexOf(card);
+      if(index != -1){
+        add = ces.slice(index);
+        ces.splice(index, add.length);
+      }
+      return ces;
+    });
+    console.log('add: ', add);
+    this.cascades[i] = this.cascades[i].concat(add);
+  }
+
+  cardToCascade(card) {
+    let numberedCas = this.cascades.map((ces, i) => {
+      return {ces: ces, i, i};
+    });
+    return numberedCas.reduce((num, obj) => {
+      return obj.ces.includes(card) && num == false ? obj.i : num;
+    }, false);
+  }
+
   addToFreeCell(i, card) {
     console.log('i: ', i);
     console.log('card: ', card);

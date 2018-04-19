@@ -18,7 +18,6 @@ class App extends Component {
   handleFreeCellClick = (i) => {
     console.log("freecell");
     console.log('i: ', i);
-    //console.log('haveCard: ', this.state.activeCard);
     if(! this.state.activeCard) return;
     cardAPI.addToFreeCell(i, this.state.activeCard);
     console.log('cardAPI: ', cardAPI);
@@ -28,10 +27,21 @@ class App extends Component {
     }));
   }
   genSetActive = (card) => () => {
-    this.setState(prevS => ({
-      activeCard: card
-    }));
+    if(this.state.activeCard) {
+      let casId = cardAPI.cardToCascade(card);
+      cardAPI.addToCascade(casId, this.state.activeCard);
+      this.setState(prevS => ({
+        cascades: cardAPI.cascades,
+        activeCard: false
+      }));
+    }
+    else {
+      this.setState(prevS => ({
+        activeCard: card,
+      }));
+    }
   };
+
   componentWillMount() {
     this.setState(prevS => ({
       freeCells: cardAPI.freeCells,
