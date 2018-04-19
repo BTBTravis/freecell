@@ -98,11 +98,41 @@ class App extends Component {
           </div>
           <div className="bot-field"></div>
         </div>
+        <Welcome />
       </div>
     );
   }
 }
 
+class Welcome extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {open: true};
+  }
+  handleClick = () => {
+    this.setState(prevS => ({
+      open: false,
+    }));
+  }
+  render() {
+    if(this.state.open){
+      const suit = ['hearts', 'diamonds', 'spades', 'clubs'][Math.floor(Math.random() * 4)];
+      const card = {
+        name: Math.floor(Math.random() * 12),
+        suit: suit
+      };
+      return <div className="welcome-wrapper">
+        <div className="welcome">
+        <div className="spinner">
+        <Card card={card} pos="0" />
+        </div>
+        <p>Welcome</p>
+        <button onClick={this.handleClick}>Start</button>
+        </div>
+        </div>
+    } else return false;
+  }
+}
 function ScoreCell(props) {
   const { i, handleClick, cell } = props;
   const card = cell.card ? <Card card={cell.card} pos="0" handleClick={(e) => handleClick(i, e)} />
@@ -147,7 +177,7 @@ function Card(props) {
           </div>
           <div className="botRight">
             <p>{suits[card.suit].symbol}</p>
-            <p>{prettyNames(card.name)}</p>
+            <p>{prettyNames(card.name + 1)}</p>
           </div>
         </div>
 };
