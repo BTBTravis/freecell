@@ -45,7 +45,6 @@ let _shuffle = (a) => {
 
 export default class CardAPI {
   constructor() {
-    this.count = 4;
     this.freeCells = [
       {
         card: false
@@ -143,6 +142,7 @@ export default class CardAPI {
       return ces;
     });
     this.scoreCells[i].card = card;
+    console.log(this.stateToJson());
   }
 
   /*
@@ -177,7 +177,6 @@ export default class CardAPI {
       if(!eligible) return;
 
     } else { // check freecell
-      // TODO: Chcek freecell for card
       let freeCellCards = this.freeCells.reduce((arr, cell) => {
         arr.push(cell.card);
         return arr;
@@ -258,4 +257,12 @@ export default class CardAPI {
     },{ cards: cardsClone, cas: [] });
     return filled.cas;
   };
+
+  stateToJson () {
+    return JSON.stringify({
+      freeCells: this.freeCells,
+      scoreCells: this.scoreCells,
+      cascades: this.cascades
+    });
+  }
 }

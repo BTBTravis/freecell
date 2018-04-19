@@ -18,5 +18,6 @@ The project was created as part of a Technical Challenge from [NGX Interactive](
 - [ ] Ability to drag a single card to new legal position
   + Using click selection in intrest of time
 - [X] Cannot move card to illegal position
-- [ ] It must include some kind of JSON I/O. Show us how you would use JSON for external data.
+- [X] It must include some kind of JSON I/O. Show us how you would use JSON for external data.
+  + FreeCell class includes a stateToJson method, state is console logged on scoring a card
 - [X] All the source code and assets must be uploaded to public GitHub/Bitbucket account
