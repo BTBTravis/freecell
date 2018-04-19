@@ -45,7 +45,7 @@ class App extends Component {
       return <FreeCell cell={cell} i={i} handleClick={this.handleFreeCellClick} handleCardClick={this.genSetActive} />
     }.bind(this));
     const scoreCells = this.state.scoreCells.map((cell, i) => <div className="cell scorecell" key={i}><p className="bgtxt">{suits[cell.name].symbol}</p></div>);
-    const cascades = this.state.cascades.map((cas, i) => <Cascade cards={cas} cardClick={this.genSetActive} />);
+    const cascades = this.state.cascades.map((cas, i) => <Cascade cards={cas} cardClick={this.genSetActive} activeCard={this.state.activeCard} />);
     return (
       <div className="App">
         <header className="App-header">
@@ -85,28 +85,31 @@ function FreeCell(props) {
 }
 
 function Cascade(props) {
-  const cards = props.cards.map((card, i) => {
-    return <Card card={card} pos={i} handleClick={props.cardClick(card)}  />
+  let { cards, cardClick, activeCard  } = props;
+  cards = cards.map((card, i) => {
+    return <Card card={card} pos={i} handleClick={cardClick(card)} active={card == activeCard} />
   });
   return <div className="cascade">{cards}</div>;
 }
 
 function Card(props) {
-  const card = props.card;
+  const { card, handleClick, pos, active  } = props;
   const cardStyle = {
-    top: props.pos * 50
+    top: pos * 50
   };
-  const redCard = card.suit == 'hearts' || card.suit == 'diamonds';
-  return <div onClick={props.handleClick} style={cardStyle} className={"card " + (redCard ? 'red-card' : '')} >
-    <div className="topLeft">
-    <p>{card.name}</p>
-    <p>{suits[card.suit].symbol}</p>
-    </div>
-    <div className="botRight">
-    <p>{suits[card.suit].symbol}</p>
-    <p>{card.name}</p>
-    </div>
-    </div>
+  const redCardClass = card.suit == 'hearts' || card.suit == 'diamonds' ? 'red-card' : '';
+  const activeClass = active ? 'active' : '';
+  const classes = `${redCardClass} ${activeClass} card`;
+  return <div onClick={handleClick} style={cardStyle} className={classes} >
+          <div className="topLeft">
+            <p>{card.name}</p>
+            <p>{suits[card.suit].symbol}</p>
+          </div>
+          <div className="botRight">
+            <p>{suits[card.suit].symbol}</p>
+            <p>{card.name}</p>
+          </div>
+        </div>
 };
 
 export default App;

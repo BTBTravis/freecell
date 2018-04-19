@@ -83,6 +83,9 @@ html, body, #root {
   background-color: white;
   box-sizing: border-box;
 }
+.card.active {
+  border-color: blue;
+}
 .card p {
   margin: 0;
 }
