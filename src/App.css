@@ -1,15 +1,15 @@
-.App {
-  text-align: center;
+html, body, #root {
+  height: 100vh;
 }
+.App {
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  flex-direction: column;
+  height: 100%;
+  display: flex;
 }
 
 .App-header {
   background-color: #222;
-  height: 150px;
   padding: 20px;
   color: white;
 }
@@ -17,12 +17,91 @@
 .App-title {
   font-size: 1.5em;
 }
-
-.App-intro {
-  font-size: large;
+.game-area {
+  max-width: 1024px;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.status-bar {
+  min-height: 40px;
+  height: 5%; 
+  display: flex;
+  justify-content: center;
+}
+.top-field {
+  display: flex;
+}
+.freecells, .scorecells {
+  display: flex;
+}
+#top-btns {
+  min-width: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+#top-btns button {
+  margin: .5em 0;
+}
+
+.cell {
+  margin: .5em;
+  padding: .5em;
+  border: 2px solid #00000029;
+  border-radius: 15px;
+  height: 125px;
+  width: 80px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cell .bgtxt {
+  margin: 0;
+  color: #00000040;
+}
+
+.scorecell .bgtxt {
+  font-size: 2.5em;
+}
+.card {
+  margin: .5em;
+  padding: .5em;
+  border: 2px solid black;
+  border-radius: 15px;
+  height: 125px;
+  width: 80px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto 1fr auto;
+  background-color: white;
+}
+.card p {
+  margin: 0;
+}
+.card.red-card p {
+  color: red;
+}
+.card .botRight {
+  grid-row: 3 / span 1;
+  grid-column: 3 / span 1;
+}
+
+.main-field {
+  display: flex;
+  justify-content: center;
+}
+.cascade {
+  position: relative;
+  width: 80px;
+  margin: .5em;
+  padding: .5em;
+}
+.main-field .card {
+  position: absolute;
 }
