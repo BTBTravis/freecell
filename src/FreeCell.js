@@ -17,11 +17,11 @@ let suits = [
   }
 ];
 
-// list of all possible cards
+// list of all possible cards 0 - 12 where 0 is ace, 11, is jack...
 let cards = [].concat.apply([],
   suits.map(suit => {
     let suits_cards = [];
-    for (var i = 0; i < 13; i++) {
+    for (var i = 0; i < 12; i++) {
       suits_cards.push({
         name: i,
         suit: suit.name

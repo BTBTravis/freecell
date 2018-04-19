@@ -16,7 +16,7 @@ const prettyNames = (num) => {
       return 'Q';
     case 12:
       return 'K';
-    case 0:
+    case 1:
       return 'A';
     default:
       return num;
@@ -142,7 +142,7 @@ function Card(props) {
   const classes = `${redCardClass} ${activeClass} card`;
   return <div onClick={handleClick} style={cardStyle} className={classes} >
           <div className="topLeft">
-            <p>{prettyNames(card.name)}</p>
+            <p>{prettyNames(card.name + 1)}</p>
             <p>{suits[card.suit].symbol}</p>
           </div>
           <div className="botRight">
