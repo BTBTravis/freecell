@@ -64,19 +64,19 @@ export default class CardAPI {
     this.scoreCells = [
       {
         name: 'hearts',
-        card:[],
+        card: false,
       },
       {
         name: 'clubs',
-        card:[],
+        card: false,
       },
       {
         name: 'spades',
-        card:[],
+        card: false,
       },
       {
         name: 'diamonds',
-        card:[],
+        card: false,
       }
     ];
     this.cascades = [
@@ -120,6 +120,31 @@ export default class CardAPI {
     }, {});
   }
 
+  addToScoreCells(i, card) {
+    console.log('this.scoreCells[i].card: ', this.scoreCells[i]);
+    let cesId = this.cardToCascade(card);
+    if(cesId !== false){ // check card is last in cascade
+      let index = this.cascades[cesId].indexOf(card);
+      if(index != this.cascades[cesId].length - 1) return;
+    }
+    if(this.scoreCells[i].name !== card.suit) return; // only allow cards of same suit
+    if (this.scoreCells[i].card === false && card.name !== 0) return; // allow ace if no card
+    else if (this.scoreCells[i].card !== false && (card.name !== this.scoreCells[i].card.name + 1)) return; // only allow larger numbers
+    // move card
+    this.freeCells = this.freeCells.map(cell => { // remove card from free cell
+      if(cell.card == card) cell.card = false;
+      return cell;
+    });
+    this.cascades = this.cascades.map(ces => { // remove card from cascades
+      let index = ces.indexOf(card);
+      if(index != -1){
+        ces.splice(index, 1);
+      }
+      return ces;
+    });
+    this.scoreCells[i].card = card;
+  }
+
   /*
    * add a card from a current cascade or freecell to a different cascade if rules allow
    * @pram {int} id of cascade being added to
@@ -160,6 +185,7 @@ export default class CardAPI {
       if(!freeCellCards.includes(card)) return;
     }
 
+    if(!this.cascades[i]) return;
     let lastCard = this.cascades[i][this.cascades[i].length - 1];
     // knock out same color
     if((lastCard.suit == 'hearts' || lastCard.suit == 'diamonds') && (card.suit == 'hearts' || card.suit == 'diamonds')) return;
@@ -195,8 +221,6 @@ export default class CardAPI {
   }
 
   addToFreeCell(i, card) {
-    console.log('i: ', i);
-    console.log('card: ', card);
     //if(this.freeCells[i].card) this.freeCells[i].card = false;
 
     if(this.freeCells[i].card) return; // check if free sell is occupied

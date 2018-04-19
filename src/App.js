@@ -15,9 +15,16 @@ class App extends Component {
     super(props);
     this.state = {activeCard: false};
   }
+  handleScoreCellClick = (i) => {
+    console.log("handleScoreCellClick");
+    if(! this.state.activeCard) return; // if we don't have an active card do nothing
+    cardAPI.addToScoreCells(i, this.state.activeCard);
+    this.setState(prevS => ({
+      scoreCells: cardAPI.scoreCells,
+      activeCard: false
+    }));
+  }
   handleFreeCellClick = (i) => {
-    console.log("freecell");
-    console.log('i: ', i);
     if(! this.state.activeCard) return;
     cardAPI.addToFreeCell(i, this.state.activeCard);
     console.log('cardAPI: ', cardAPI);
@@ -51,10 +58,12 @@ class App extends Component {
   }
   //<button onClick={this.handleAdd}>Add</button>
   render() {
-    const freeCells = this.state.freeCells.map(function(cell, i) {
-      return <FreeCell cell={cell} i={i} handleClick={this.handleFreeCellClick} handleCardClick={this.genSetActive} />
+    const freeCells = this.state.freeCells.map(function (cell, i) {
+      return <FreeCell cell={cell} i={i} handleClick={this.handleFreeCellClick} handleCardClick={this.genSetActive} activeCard={this.state.activeCard} />
     }.bind(this));
-    const scoreCells = this.state.scoreCells.map((cell, i) => <div className="cell scorecell" key={i}><p className="bgtxt">{suits[cell.name].symbol}</p></div>);
+    const scoreCells = this.state.scoreCells.map(function (cell, i) {
+      return <ScoreCell cell={cell} i={i} handleClick={this.handleScoreCellClick} />
+    }.bind(this));
     const cascades = this.state.cascades.map((cas, i) => <Cascade cards={cas} cardClick={this.genSetActive} activeCard={this.state.activeCard} />);
     return (
       <div className="App">
@@ -81,12 +90,20 @@ class App extends Component {
   }
 }
 
-
+function ScoreCell(props) {
+  const { i, handleClick, cell } = props;
+  const card = cell.card ? <Card card={cell.card} pos="0" handleClick={(e) => handleClick(i, e)} />
+                           : false;
+  return <div className="cell scorecell" key={i} onClick={(e) => handleClick(i, e)}>
+           { !cell.card ? <p className="bgtxt">{suits[cell.name].symbol}</p> : false }
+           {card}
+         </div>;
+}
 //<Card card={cellcard} pos={i} handleClick={props.cardClick(card)}  />
 function FreeCell(props) {
-  const { i, handleClick, handleCardClick, cell } = props;
+  const { i, handleClick, handleCardClick, cell, activeCard } = props;
   const cardClick = handleCardClick(cell.card);
-  const card = cell.card ? <Card card={cell.card} pos="0" handleClick={cardClick} />
+  const card = cell.card ? <Card card={cell.card} pos="0" handleClick={cardClick} active={cell.card == activeCard} />
                : false;
   return <div className="cell freecell" key={i} onClick={(e) => handleClick(i, e)} >
            { !cell.card ? <p className="bgtxt">freecell</p> : null }
