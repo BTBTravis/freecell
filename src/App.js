@@ -1,14 +1,27 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import CardAPI from './FreeCell';
-
 
 const cardAPI = new CardAPI();
 console.log('cardAPI: ', cardAPI);
 
 const suits = cardAPI.suits;
 console.log('suits: ', suits);
+
+const prettyNames = (num) => {
+  switch (num) {
+    case 10:
+      return 'J';
+    case 11:
+      return 'Q';
+    case 12:
+      return 'K';
+    case 0:
+      return 'A';
+    default:
+      return num;
+  }
+};
 
 class App extends Component {
   constructor(props) {
@@ -129,12 +142,12 @@ function Card(props) {
   const classes = `${redCardClass} ${activeClass} card`;
   return <div onClick={handleClick} style={cardStyle} className={classes} >
           <div className="topLeft">
-            <p>{card.name}</p>
+            <p>{prettyNames(card.name)}</p>
             <p>{suits[card.suit].symbol}</p>
           </div>
           <div className="botRight">
             <p>{suits[card.suit].symbol}</p>
-            <p>{card.name}</p>
+            <p>{prettyNames(card.name)}</p>
           </div>
         </div>
 };

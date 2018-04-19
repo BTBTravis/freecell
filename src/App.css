@@ -30,6 +30,7 @@ html, body, #root {
   height: 5%; 
   display: flex;
   justify-content: center;
+  opacity: .15;
 }
 .top-field {
   display: flex;
@@ -42,6 +43,7 @@ html, body, #root {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  opacity: .15;
 }
 
 #top-btns button {
