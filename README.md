@@ -24,6 +24,10 @@ The project was created as part of a Technical Challenge from [NGX Interactive](
   + FreeCell class includes a stateToJson method, state is console logged on scoring a card
 - [X] All the source code and assets must be uploaded to public GitHub/Bitbucket account
 
+**Issues**
+- [ ] No empty cascades allowed currently
+
+
 **Tech highlights**
 + js object destructuring. [Example in App.js](https://github.com/BTBTravis/freecell/blob/master/src/App.js#L141)
 + business logic separate from the view. [FreeCell.js](https://github.com/BTBTravis/freecell/blob/master/src/FreeCell.js)
