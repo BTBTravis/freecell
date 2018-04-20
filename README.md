@@ -25,7 +25,7 @@ The project was created as part of a Technical Challenge from [NGX Interactive](
 - [X] All the source code and assets must be uploaded to public GitHub/Bitbucket account
 
 **Issues**
-- [ ] No empty cascades allowed currently
+- [ ] [No empty cascades allowed currently](https://github.com/BTBTravis/freecell/issues/1)
 
 
 **Tech highlights**
