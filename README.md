@@ -4,6 +4,11 @@ The project was created as part of a Technical Challenge from [NGX Interactive](
 
 ### Goal: Create and implementation of classic Windows solitaire card game FreeCell 
 
+![preview_gif_1](https://user-images.githubusercontent.com/13404719/39025059-6a492e36-440a-11e8-9dfc-66853102ad49.gif)
+
+![preview_gif_2](https://user-images.githubusercontent.com/13404719/39025061-6be96828-440a-11e8-9fa6-23ea0159da42.gif)
+
+
 **Progress**
 - [X] 4 “free cell” positions at top.
 - [X] 4 “foundation” position to move cards to complete the game
