@@ -127,6 +127,7 @@ class Welcome extends Component {
     } else return false;
   }
 }
+
 function ScoreCell(props) {
   const { i, handleClick, cell } = props;
   const card = cell.card ? <Card card={cell.card} pos="0" handleClick={(e) => handleClick(i, e)} />
@@ -136,7 +137,7 @@ function ScoreCell(props) {
            {card}
          </div>;
 }
-//<Card card={cellcard} pos={i} handleClick={props.cardClick(card)}  />
+
 function FreeCell(props) {
   const { i, handleClick, handleCardClick, cell, activeCard } = props;
   const cardClick = handleCardClick(cell.card);
@@ -155,7 +156,6 @@ function Cascade(props) {
   });
   return <div className="cascade">{cards}</div>;
 }
-
 
 function Card(props) {
   const { card, handleClick, pos, active  } = props;

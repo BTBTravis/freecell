@@ -1,3 +1,4 @@
+// playing card suits defined outside of class as to not be exposed
 let suits = [
   {
     name: 'hearts',
@@ -43,6 +44,7 @@ let _shuffle = (a) => {
   return a;
 };
 
+// business login of FreeCell
 export default class CardAPI {
   constructor() {
     this.freeCells = [
@@ -112,13 +114,18 @@ export default class CardAPI {
         max: 6
       },
     ];
-    this.cascades =  this._fillcas(this.cascades,_shuffle(cards));
-    this.suits = suits.reduce((carry, suit) => {
+    this.cascades =  this._fillcas(this.cascades,_shuffle(cards)); // on init the cascades are filled from a shuffled deck so only way to currently shuffle is re init or refresh page...
+    this.suits = suits.reduce((carry, suit) => { // modifying suits into obj key pair for easy access form outside class
       carry[suit.name] = suit;
       return carry;
     }, {});
   }
 
+  /*
+   * add a card to the a scorecell if rules allow
+   * @pram {i} int id of scoringCell 0-3
+   * @pram {Card} card card object with .name and .suit keys
+   */
   addToScoreCells(i, card) {
     let cesId = this.cardToCascade(card);
     if(cesId !== false){ // check card is last in cascade
@@ -141,7 +148,7 @@ export default class CardAPI {
       return ces;
     });
     this.scoreCells[i].card = card;
-    console.log(this.stateToJson());
+    console.log(this.stateToJson()); // show off stateToJson
   }
 
   /*
@@ -205,6 +212,10 @@ export default class CardAPI {
     this.cascades[i] = this.cascades[i].concat(add);
   }
 
+  /*
+   * find the cascade index for a given card
+   * @pram {Card} card object with .name and .suit keys
+   */
   cardToCascade(card) {
     let numberedCas = this.cascades.map((ces, i) => {
       return {ces: ces, i: i};
@@ -214,9 +225,12 @@ export default class CardAPI {
     }, false);
   }
 
+  /*
+   * add card to a freeCell given an index and the rules allow
+   * @pram {i} int id of freeCell 0-3
+   * @pram {Card} card object with .name and .suit keys
+   */
   addToFreeCell(i, card) {
-    //if(this.freeCells[i].card) this.freeCells[i].card = false;
-
     if(this.freeCells[i].card) return; // check if free sell is occupied
     // check if card is last of a cascade
     let lastCards = [].concat.apply([],
@@ -232,7 +246,6 @@ export default class CardAPI {
     });
     this.freeCells[i].card = card;
   }
-
 
   /**
    * Init fill of cascades with cards
@@ -252,6 +265,10 @@ export default class CardAPI {
     return filled.cas;
   };
 
+  /*
+   * export important values of game state to JSON
+   * @returns {string} JSON
+   */
   stateToJson () {
     return JSON.stringify({
       freeCells: this.freeCells,

@@ -17,18 +17,19 @@ The project was created as part of a Technical Challenge from [NGX Interactive](
 - [ ] Clicking on “open” card in a column, will move to open ‘freecell’ if one is available
   + Currently clicking selects a card and then clicking again places the card
 - [ ] Ability to drag a single card to new legal position
-  + Using click selection in intrest of time
+  + Currently you move cards into legal positions via clicking to select then clicking to place
+  + Dragging is a v2 feature
 - [X] Cannot move card to illegal position
 - [X] It must include some kind of JSON I/O. Show us how you would use JSON for external data.
   + FreeCell class includes a stateToJson method, state is console logged on scoring a card
 - [X] All the source code and assets must be uploaded to public GitHub/Bitbucket account
 
 **Tech highlights**
-+ js object destructuring
-+ business logic separate from the view
-+ held off bringing in state management library
++ js object destructuring. [Example in App.js](https://github.com/BTBTravis/freecell/blob/master/src/App.js#L141)
++ business logic separate from the view. [FreeCell.js](https://github.com/BTBTravis/freecell/blob/master/src/FreeCell.js)
++ held off bringing in state management library. No redux or mobx just react.
 
-**Imporvments**
+**Possible Imporvments**
 + unit tests for FreeCell.js
 + good opportunity for generative testing *Ex. try moving every card to every possible location*
 + adding [prop-types](https://www.npmjs.com/package/prop-types) would improve stability
