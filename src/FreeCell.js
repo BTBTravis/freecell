@@ -22,7 +22,7 @@ let suits = [
 let cards = [].concat.apply([],
   suits.map(suit => {
     let suits_cards = [];
-    for (var i = 0; i < 12; i++) {
+    for (var i = 0; i < 13; i++) {
       suits_cards.push({
         name: i,
         suit: suit.name

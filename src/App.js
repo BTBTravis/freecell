@@ -6,11 +6,11 @@ const cardAPI = new CardAPI();
 const suits = cardAPI.suits;
 const prettyNames = (num) => {
   switch (num) {
-    case 10:
-      return 'J';
     case 11:
-      return 'Q';
+      return 'J';
     case 12:
+      return 'Q';
+    case 13:
       return 'K';
     case 1:
       return 'A';
