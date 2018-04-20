@@ -120,23 +120,22 @@ export default class CardAPI {
   }
 
   addToScoreCells(i, card) {
-    console.log('this.scoreCells[i].card: ', this.scoreCells[i]);
     let cesId = this.cardToCascade(card);
     if(cesId !== false){ // check card is last in cascade
       let index = this.cascades[cesId].indexOf(card);
-      if(index != this.cascades[cesId].length - 1) return;
+      if(index !== this.cascades[cesId].length - 1) return;
     }
     if(this.scoreCells[i].name !== card.suit) return; // only allow cards of same suit
     if (this.scoreCells[i].card === false && card.name !== 0) return; // allow ace if no card
     else if (this.scoreCells[i].card !== false && (card.name !== this.scoreCells[i].card.name + 1)) return; // only allow larger numbers
     // move card
     this.freeCells = this.freeCells.map(cell => { // remove card from free cell
-      if(cell.card == card) cell.card = false;
+      if(cell.card === card) cell.card = false;
       return cell;
     });
     this.cascades = this.cascades.map(ces => { // remove card from cascades
       let index = ces.indexOf(card);
-      if(index != -1){
+      if(index !== -1){
         ces.splice(index, 1);
       }
       return ces;
@@ -152,20 +151,18 @@ export default class CardAPI {
    */
   addToCascade(i, card) {
     let cesId = this.cardToCascade(card);
-    console.log('cesId: ', cesId);
     let part;
     if(cesId !== false){ // check this cascade
       let index = this.cascades[cesId].indexOf(card);
       part = this.cascades[cesId].slice(index);
-      console.log('part: ', part);
       let checkCard = (ecard, ces) => {
         let index = ces.indexOf(ecard);
         if(index < 0) return false; // if the card is not in the ces its not eligible
-        if(index == ces.length - 1) return true; // if the card is last in the ces it is eligible
+        if(index === ces.length - 1) return true; // if the card is last in the ces it is eligible
         let nextCard = ces[index + 1];
-        if((nextCard.suit == 'hearts' || nextCard.suit == 'diamonds') && (ecard.suit == 'hearts' || ecard.suit == 'diamonds')) return false;
-        if((nextCard.suit == 'clubs' || nextCard.suit == 'spades') && (ecard.suit == 'clubs' || ecard.suit == 'spades')) return false;
-        if(nextCard.name != ecard.name - 1) return false;
+        if((nextCard.suit === 'hearts' || nextCard.suit === 'diamonds') && (ecard.suit === 'hearts' || ecard.suit === 'diamonds')) return false;
+        if((nextCard.suit === 'clubs' || nextCard.suit === 'spades') && (ecard.suit === 'clubs' || ecard.suit === 'spades')) return false;
+        if(nextCard.name !== ecard.name - 1) return false;
         return true;
       };
 
@@ -173,7 +170,6 @@ export default class CardAPI {
         if(bool) return checkCard(partCard, this.cascades[cesId]);
         else return bool;
       }, true);
-      console.log('eligible: ', eligible);
       if(!eligible) return;
 
     } else { // check freecell
@@ -187,35 +183,34 @@ export default class CardAPI {
     if(!this.cascades[i]) return;
     let lastCard = this.cascades[i][this.cascades[i].length - 1];
     // knock out same color
-    if((lastCard.suit == 'hearts' || lastCard.suit == 'diamonds') && (card.suit == 'hearts' || card.suit == 'diamonds')) return;
-    if((lastCard.suit == 'clubs' || lastCard.suit == 'spades') && (card.suit == 'clubs' || card.suit == 'spades')) return;
+    if((lastCard.suit === 'hearts' || lastCard.suit === 'diamonds') && (card.suit === 'hearts' || card.suit === 'diamonds')) return;
+    if((lastCard.suit === 'clubs' || lastCard.suit === 'spades') && (card.suit === 'clubs' || card.suit === 'spades')) return;
     // knock out wrong number
-    if(card.name != lastCard.name - 1) return;
+    if(card.name !== lastCard.name - 1) return;
 
     // move card
     let add = card;
     this.freeCells = this.freeCells.map(cell => { // remove card from free cell
-      if(cell.card == card) cell.card = false;
+      if(cell.card === card) cell.card = false;
       return cell;
     });
     this.cascades = this.cascades.map(ces => { // remove card from cascades
       let index = ces.indexOf(card);
-      if(index != -1){
+      if(index !== -1){
         add = ces.slice(index);
         ces.splice(index, add.length);
       }
       return ces;
     });
-    console.log('add: ', add);
     this.cascades[i] = this.cascades[i].concat(add);
   }
 
   cardToCascade(card) {
     let numberedCas = this.cascades.map((ces, i) => {
-      return {ces: ces, i, i};
+      return {ces: ces, i: i};
     });
     return numberedCas.reduce((num, obj) => {
-      return obj.ces.includes(card) && num == false ? obj.i : num;
+      return obj.ces.includes(card) && num === false ? obj.i : num;
     }, false);
   }
 
@@ -228,12 +223,11 @@ export default class CardAPI {
       this.cascades.map(cas => {
         return cas.length > 0 ? cas[cas.length - 1] : [];
     }));
-    console.log('lastCards: ', lastCards);
     if(! lastCards.includes(card)) return;
     // move card
     this.cascades = this.cascades.map(ces => {
       let index = ces.indexOf(card);
-      if(index != -1) ces.splice(index, 1);
+      if(index !== -1) ces.splice(index, 1);
       return ces;
     });
     this.freeCells[i].card = card;

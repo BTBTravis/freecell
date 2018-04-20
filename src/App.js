@@ -3,11 +3,7 @@ import './App.css';
 import CardAPI from './FreeCell';
 
 const cardAPI = new CardAPI();
-console.log('cardAPI: ', cardAPI);
-
 const suits = cardAPI.suits;
-console.log('suits: ', suits);
-
 const prettyNames = (num) => {
   switch (num) {
     case 10:
@@ -29,7 +25,6 @@ class App extends Component {
     this.state = {activeCard: false};
   }
   handleScoreCellClick = (i) => {
-    console.log("handleScoreCellClick");
     if(! this.state.activeCard) return; // if we don't have an active card do nothing
     cardAPI.addToScoreCells(i, this.state.activeCard);
     this.setState(prevS => ({
@@ -40,7 +35,6 @@ class App extends Component {
   handleFreeCellClick = (i) => {
     if(! this.state.activeCard) return;
     cardAPI.addToFreeCell(i, this.state.activeCard);
-    console.log('cardAPI: ', cardAPI);
     this.setState(prevS => ({
       freeCells: cardAPI.freeCells,
       activeCard: false
@@ -72,12 +66,12 @@ class App extends Component {
   //<button onClick={this.handleAdd}>Add</button>
   render() {
     const freeCells = this.state.freeCells.map(function (cell, i) {
-      return <FreeCell cell={cell} i={i} handleClick={this.handleFreeCellClick} handleCardClick={this.genSetActive} activeCard={this.state.activeCard} />
+      return <FreeCell key={i} cell={cell} i={i} handleClick={this.handleFreeCellClick} handleCardClick={this.genSetActive} activeCard={this.state.activeCard} />
     }.bind(this));
     const scoreCells = this.state.scoreCells.map(function (cell, i) {
-      return <ScoreCell cell={cell} i={i} handleClick={this.handleScoreCellClick} />
+      return <ScoreCell key={i} cell={cell} i={i} handleClick={this.handleScoreCellClick} />
     }.bind(this));
-    const cascades = this.state.cascades.map((cas, i) => <Cascade cards={cas} cardClick={this.genSetActive} activeCard={this.state.activeCard} />);
+    const cascades = this.state.cascades.map((cas, i) => <Cascade key={i} cards={cas} cardClick={this.genSetActive} activeCard={this.state.activeCard} />);
     return (
       <div className="App">
         <header className="App-header">
@@ -146,7 +140,7 @@ function ScoreCell(props) {
 function FreeCell(props) {
   const { i, handleClick, handleCardClick, cell, activeCard } = props;
   const cardClick = handleCardClick(cell.card);
-  const card = cell.card ? <Card card={cell.card} pos="0" handleClick={cardClick} active={cell.card == activeCard} />
+  const card = cell.card ? <Card card={cell.card} pos="0" handleClick={cardClick} active={cell.card === activeCard} />
                : false;
   return <div className="cell freecell" key={i} onClick={(e) => handleClick(i, e)} >
            { !cell.card ? <p className="bgtxt">freecell</p> : null }
@@ -157,17 +151,18 @@ function FreeCell(props) {
 function Cascade(props) {
   let { cards, cardClick, activeCard  } = props;
   cards = cards.map((card, i) => {
-    return <Card card={card} pos={i} handleClick={cardClick(card)} active={card == activeCard} />
+    return <Card key={i} card={card} pos={i} handleClick={cardClick(card)} active={card === activeCard} />
   });
   return <div className="cascade">{cards}</div>;
 }
+
 
 function Card(props) {
   const { card, handleClick, pos, active  } = props;
   const cardStyle = {
     top: pos * 50
   };
-  const redCardClass = card.suit == 'hearts' || card.suit == 'diamonds' ? 'red-card' : '';
+  const redCardClass = card.suit === 'hearts' || card.suit === 'diamonds' ? 'red-card' : '';
   const activeClass = active ? 'active' : '';
   const classes = `${redCardClass} ${activeClass} card`;
   return <div onClick={handleClick} style={cardStyle} className={classes} >
